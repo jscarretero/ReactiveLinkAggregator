@@ -1,0 +1,69 @@
+/* Author: Javier Carretero Casado. MIT license */
+/* CSS declarations go here */
+.hidden_div{
+	display:none;
+}
+
+body{
+	padding-top:60px;
+	background-color: lightgray;
+}
+
+.website-item {
+	margin-top: 6px;
+}
+
+.web_name {
+	display: inline-block;
+	margin-top:5px;
+	margin-bottom:5px;
+	margin-right:10px;
+}
+
+.url_text {
+	color: gray;
+}
+
+.username_text {
+	color: black;
+	font-weight: bolder;
+}
+
+.date_text  {
+	color:gray;
+	margin-left:10px;
+	margin-right:10px;
+}
+
+.comment_text {
+	margin-left:10px;
+	margin-right:10px;
+	margin-top:10px;
+	margin-bottom:0px;
+	white-space: pre-wrap;
+}
+
+.enterCommentItem {
+	margin-top: 6px;
+}
+.commentbox {
+  resize: vertical; /* user can resize vertically, but width is fixed */
+}
+
+hr {
+	margin-top:2px;
+	margin-bottom:4px;
+}
+
+.website-item:hover {
+	border: 1px solid black;;
+}
+
+.header_text {
+	font-size: 20px;
+	font-weight: bold;
+	color: black;
+}
+
+/*.web_name {
+	display: inline-block;*/

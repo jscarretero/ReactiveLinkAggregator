@@ -1,0 +1,200 @@
+<!-- Author: Javier Carretero Casado. MIT license  -->
+<head>
+  <title>Link Recommendations</title>
+</head>
+
+<body>
+</body>
+
+
+<!-- Template to define web layout in terms of templates, used by Router -->
+<template name="WebLayout">
+  {{> yield "navigation"}}
+  {{> yield "main"}}
+  {{> yield "extra"}}
+</template>
+
+<!-- Template for navbar -->
+<template name="my_navbar">
+  <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <ul>
+          <a class="navbar-brand" href="/">
+            <span class="header_text">Link Ranking</span>
+          </a>
+          {{> loginButtons align="right"}}
+        </ul>
+      </div>
+    </div>
+  </nav>
+</template>
+
+<!-- Template to add a new website information -->
+<template name="website_form">
+
+  <div class="modal fade" id="website_form">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="modal-title">
+            <button class="btn btn-warning pull-right close"
+                    data-dismiss="modal">&times;
+            </button>
+            <h4 id="stateHeader">Website form</h4>
+          </div> <!--/.modal-title-->
+        </div> <!--/.modal-header-->
+        <div class="modal-body">
+
+          <!--<div id="website_form" class="hidden_div">-->
+        		<form class="js-save-website-form">
+        		  <div class="form-group">
+        		    <label for="url">Site address</label>
+        		    <input type="text" class="form-control" id="url"
+                       placeholder="http://www.mysite.com">
+        		  </div>
+        		  <div class="form-group">
+        		    <label for="title">Title</label>
+        		    <input type="text" class="form-control" id="title"
+                       placeholder="Mysite">
+        		  </div>
+        		  <div class="form-group">
+        		    <label for="description">Description</label>
+        		    <input type="text" class="form-control" id="description"
+                       placeholder="I found this site really useful for ...">
+        		  </div>
+              <button type="submit" class="btn btn-success btn-block">Submit</button>
+        		</form>
+        	<!--</div>-->
+
+        </div> <!--/.modal-body-->
+        <div class="modal-footer">
+        </div> <!--/.modal-footer-->
+      </div> <!--/.modal-content-->
+    </div> <!--/.modal-dialog-->
+  </div> <!-- /.modal -->
+</template>
+
+<!-- Template that displays several website items -->
+<template name="website_list">
+  <div class="container" >
+    {{#if currentUser}}
+    <button class="btn btn-success btn-sm js-show-website-form">
+      Add link
+    </button>
+    {{/if}}
+  </div>
+  <ul class="list-group">
+    {{#each websites}}
+    {{>website_item}}
+    {{/each}}
+  </ul>
+</template>
+
+<!-- Template that displays individual website entries -->
+<template name="website_item">
+  <div class="container">
+  <span class="list-group-item website-item">
+    <div class="media">
+
+      <div class="media-left media-middle">
+        <a href="#" class="btn btn-xs btn-success js-upvote {{upBtnClass}}">
+          <span class="glyphicon glyphicon-arrow-up" aria-hidden="true">
+          </span>
+        </a>
+        <a href="#" class="btn btn-xs btn-warning js-downvote {{downBtnClass}}">
+          <span class="glyphicon glyphicon-arrow-down" aria-hidden="true">
+          </span>
+        </a>
+      </div>
+
+      <div class="media-body" >
+        <span class="media-heading">
+          <a href="{{url}}"><h3 class="web_name">{{title}}</h3></a>
+          <span class="url_text"> {{url}} </span>
+        </span>
+        <p>{{description}}</p>
+        <hr/>
+        <span class="label label-pill label-info">{{upVotes}}</span> Likes
+        <span class="label label-pill label-danger">{{downVotes}}</span> Mehs
+        <span class="date_text" rel="tooltip" data-toggle="tooltip"
+              data-placement="bottom"  title="{{createdOn}}">
+              {{formatDate createdOn}}
+        </span>
+        <span>added by
+          <span class="username_text">
+            {{getUser createdBy}}
+          </span>
+        </span>
+
+        {{#if currentUser}}
+        <a href = "/link/{{_id}}" class="btn btn-xs btn-default pull-right">
+          <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+        </a>
+
+        <!-- <a href = "#" class="btn btn-xs btn-danger pull-right"> -->
+        <!--  <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> -->
+        <!-- </a> -->
+        {{/if}}
+
+
+      </div>
+
+    </div>
+  </span>
+  </div>
+</template>
+
+<!-- Template to display comments associated to a website link -->
+<template name="comments_template">
+  {{>website_item}} <!-- is already in a container-->
+
+  <div class="container">
+    <h4> Comments: </h4>
+    <ul class="list-group">
+    {{#each relatedComments}}
+        {{> commentItemTemplate}}
+    {{/each}}
+    </ul>
+    {{#if currentUser}}
+      {{> submitCommentTemplate linkId = _id }}
+    {{else}}
+      <h4>You need to log in to comment.</h4>
+    {{/if}}
+  </div>
+</template>
+
+
+<!-- Template to display a single comment -->
+<template name="commentItemTemplate">
+  <div>
+    <span class="list-group-item">
+      <h5>
+        <span class = "username_text">{{getUser createdBy}}</span>
+        <span class= "date_text"> on {{createdOn}}</span>
+      </h5>
+      <hr/>
+      <p class="comment_text">{{text}}</p>
+    </span>
+  </div>
+</template>
+
+<!-- Template to submit a comment -->
+<template name="submitCommentTemplate">
+  <div class="enterCommentItem">
+    <ul class="list-group">
+      <span class="list-group-item ">
+        <form class="js-add-comment-form">
+          <div class="form-group">
+            <label for="comment">Comment:</label>
+            <textarea class="form-control commentbox" id="comment"
+                      placeholder="Type your comment here..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary btn-xs">
+            Add comment
+          </button>
+        </form>
+      </span>
+    </ul>
+  </div>
+</template>
