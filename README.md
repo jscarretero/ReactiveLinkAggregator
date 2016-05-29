@@ -5,14 +5,18 @@ Coded by Javier Carretero
 ## Quick Start
 
 First, start by installing the Meteor framework and by cloning the reposityory.
+
 	curl https://install.meteor.com/ | sh
 	git clone https://github.com/jscarretero/ReactiveLinkAggregator.git
 
 In one terminal, under the GIT repository directory: 
+
 	meteor
 
 And on a second terminal, we will open two firefox (or chrome) windows: 
+
 	firefox localhost:3000
+	firefox localhost:3000	
 
 
 Then, several (fake) user accounts can be created, and the actions of one client will reflect immediately on the view for other clients.
