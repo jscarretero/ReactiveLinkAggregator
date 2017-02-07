@@ -1,8 +1,6 @@
 # Reactive Link Aggregator
 Link Aggregator with reactive capabilities. Built on top of Meteor.js, MongoDB, Bootstrap, moment.js, and jQuery.
 
-Coded by Javier Carretero
-
 ## Quick Start
 
 First, start by installing the Meteor framework and by cloning the repository.
